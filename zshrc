@@ -40,12 +40,6 @@ conf() {
     esac
 }
 
-gotoScif() {
-    cd ~/Ericsson/scifproject
-    source env/bin/activate
-    export PYTHONPATH=~/Ericsson/scifproject
-}
-
 #
 #Aliases
 #
@@ -105,6 +99,3 @@ path+=/usr/local/sbin
 export PATH="/usr/local/bin:$PATH"
 export EDITOR="vim"
 export SUDO_EDITOR="vim"
-
-PERL_MB_OPT="--install_base \"/Users/mattias/perl5\""; export PERL_MB_OPT;
-PERL_MM_OPT="INSTALL_BASE=/Users/mattias/perl5"; export PERL_MM_OPT;

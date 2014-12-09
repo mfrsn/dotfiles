@@ -33,17 +33,20 @@ Plugin 'w0ng/vim-hybrid'
 " Syntax highlighting
 Plugin 'zaiste/tmux.vim'
 Plugin 'dpwright/vim-tup'
+Plugin 'nachumk/systemverilog.vim'
 
 call vundle#end()
 filetype plugin indent on
 
+if has("mac")
+endif
+
 " General
 " =======
-let mapleader='\'
-map <Space> <Leader>
-nnoremap <Leader>x i
+let mapleader='-'
+"noremap <Space> <Leader>
+"nnoremap <Leader>x i
 set showcmd
-" let mapleader='\<Space>'
 set encoding=utf-8
 set exrc            " Load .vimrc from cwd
 set secure
@@ -62,8 +65,7 @@ set incsearch
 set laststatus=2
 "set ttimeoutlen=50
 set scrolloff=5
-set visualbell
-set t_vb=
+set visualbell t_vb=
 set mouse=a
 
 " Backup and swap
@@ -76,9 +78,9 @@ set nowritebackup
 " ============
 set expandtab
 set smarttab
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
+set shiftwidth=2
+set tabstop=2
+set softtabstop=2
 
 " Indent settings
 " ===============
@@ -165,7 +167,7 @@ colorscheme base16-ocean
 set linespace=0
 
 " GUI settings
-set guifont=Consolas:h12
+set guifont=Consolas:h12,Menlo\ Regular:h11,Courier\ New:h11
 set guioptions-=r
 set guioptions-=R
 set guioptions-=l
@@ -173,19 +175,41 @@ set guioptions-=L
 
 " Commands
 " ========
-map K i<Enter><Esc>
+inoremap jk <Esc>
+inoremap <Esc> <nop>
+
+inoremap <Up> <nop>
+inoremap <Down> <nop>
+inoremap <Left> <nop>
+inoremap <Right> <nop>
+nnoremap <Up> <nop>
+nnoremap <Down> <nop>
+nnoremap <Left> <nop>
+nnoremap <Right> <nop>
+
+nnoremap K i<Enter><Esc>
+nnoremap H ^
+nnoremap L $
+nnoremap <F5> :setlocal spell! spelllang=en_gb<CR>
+nnoremap <leader>ev :vsplit $MYVIMRC<cr>
+nnoremap <leader>sv :source $MYVIMRC<cr>
 
 " Filetype settings
 autocmd FileType gitcommit setlocal spell textwidth=72
 autocmd FileType html,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType tex setlocal shiftwidth=2 tabstop=2 softtabstop=2
 
 " Emulate US keyboard
-map € $
-map å <C-J>
-map ö [
-map ä ]
-map Ö {
-map Ä }
-map - /
+if has("mac")
+  noremap € $
+else
+  noremap ¤ $
+endif
+noremap å <C-J>
+noremap ö [
+noremap ä ]
+noremap Ö {
+noremap Ä }
+"noremap - /
 

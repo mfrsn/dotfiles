@@ -3,8 +3,7 @@
 set nocompatible
 filetype off
 
-" Plugins
-" =======
+" Vundle Plugins ---- {{{
 set rtp+=~/.vim/bundle/vundle/
 call vundle#begin()
 
@@ -37,15 +36,13 @@ Plugin 'nachumk/systemverilog.vim'
 
 call vundle#end()
 filetype plugin indent on
+" }}}
 
 if has("mac")
 endif
 
-" General
-" =======
+" General Settings ---- {{{
 let mapleader='-'
-"noremap <Space> <Leader>
-"nnoremap <Leader>x i
 set showcmd
 set encoding=utf-8
 set exrc            " Load .vimrc from cwd
@@ -96,7 +93,9 @@ set foldnestmax=20
 set foldcolumn=0
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+" }}}
 
+" Plugin Settings ---- {{{
 " YouCompleteMe
 " =============
 let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
@@ -155,7 +154,9 @@ nnoremap <silent> <leader>pp :ShiftPencil<cr>
 " vim-commentary
 " ==============
 autocmd FileType cpp set commentstring=//\ %s
+" }}}
 
+" Appearance ---- {{{
 " Theme
 " =====
 syntax enable
@@ -172,9 +173,9 @@ set guioptions-=r
 set guioptions-=R
 set guioptions-=l
 set guioptions-=L
+" }}}
 
-" Commands
-" ========
+" Keybindings ---- {{{
 inoremap jk <Esc>
 inoremap <Esc> <nop>
 
@@ -194,11 +195,10 @@ nnoremap <F5> :setlocal spell! spelllang=en_gb<CR>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
-" Filetype settings
-autocmd FileType gitcommit setlocal spell textwidth=72
-autocmd FileType html,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType tex setlocal shiftwidth=2 tabstop=2 softtabstop=2
+onoremap in( :<c-u>normal! f(vi(<cr>
+onoremap il( :<c-u>normal! F)vi(<cr>
+onoremap in{ :<c-u>normal! f{vi{<cr>
+onoremap il{ :<c-u>normal! F{vi{<cr>
 
 " Emulate US keyboard
 if has("mac")
@@ -211,5 +211,17 @@ noremap ö [
 noremap ä ]
 noremap Ö {
 noremap Ä }
-"noremap - /
+" }}}
 
+" Filetype Settings ---- {{{
+autocmd FileType gitcommit setlocal spell textwidth=72
+autocmd FileType html,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType tex setlocal shiftwidth=2 tabstop=2 softtabstop=2
+autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
+
+augroup FileTypeVim
+  autocmd!
+  autocmd FileType vim setlocal foldmethod=marker
+  autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
+augroup END
+" }}}

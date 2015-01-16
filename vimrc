@@ -65,6 +65,7 @@ set laststatus=2
 set scrolloff=5
 set visualbell t_vb=
 set mouse=a
+set backspace=indent,eol,start
 
 " Backup and swap
 " ===============

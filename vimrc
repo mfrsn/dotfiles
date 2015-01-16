@@ -30,6 +30,7 @@ Plugin 'chriskempson/base16-vim'
 Plugin 'w0ng/vim-hybrid'
 
 " Syntax highlighting
+Plugin 'wting/rust.vim'
 Plugin 'zaiste/tmux.vim'
 Plugin 'dpwright/vim-tup'
 Plugin 'nachumk/systemverilog.vim'
@@ -134,10 +135,11 @@ nnoremap <leader>. :CtrlPTag<cr>
 let g:pencil#textwidth = 74
 let g:pencil#wrapModeDefault = 'hard'
 let g:pencil#autoformat = 0
+let g:pencil#conceallevel = 0
 
 augroup pencil
   autocmd!
-  autocmd FileType tex call pencil#init({'wrap': 'soft', 'autoformat': 1})
+  autocmd FileType tex call pencil#init({'wrap': 'hard', 'autoformat': 1})
   autocmd FileType rst call pencil#init({'wrap': 'hard', 'autoformat': 1})
   autocmd FileType gitcommit call pencil#init({'wrap': 'hard', 'autoformat': 1, 'textwidth': 72})
   autocmd FileType text call pencil#init({'wrap': 'hard'})
@@ -223,5 +225,12 @@ augroup FileTypeVim
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
   autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
+  autocmd FileType vim setlocal foldlevel=0
 augroup END
+
+augroup FileTypeRust
+  autocmd!
+  autocmd FileType rust setlocal shiftwidth=4 tabstop=4 softtabstop=4
+augroup END
+
 " }}}

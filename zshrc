@@ -32,12 +32,16 @@ BASE16_SHELL="$HOME/.config/base16-shell/base16-$BASE16_SCHEME.dark.sh"
 
 # Shortcut functions
 conf() {
-    case $1 in
-        zsh)    vim ~/.zshrc && source ~/.zshrc ;;
-        vim)    vim ~/.vimrc ;;
-        tmux)   vim ~/.tmux.conf ;;
-        *)      echo "Unknown application" ;;
-    esac
+  case $1 in
+    zsh)    vim ~/.zshrc && source ~/.zshrc ;;
+    vim)    vim ~/.vimrc ;;
+    tmux)   vim ~/.tmux.conf ;;
+    *)      echo "Unknown application" ;;
+  esac
+}
+
+course() {
+  cd ~/Documents/School/$1
 }
 
 #

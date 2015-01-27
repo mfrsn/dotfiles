@@ -10,30 +10,34 @@ call vundle#begin()
 " Required
 Plugin 'gmarik/vundle'
 
-" Essential
+" Linting/syntax
 Plugin 'Valloric/YouCompleteMe'
 Plugin 'SirVer/ultisnips'
-Plugin 'kien/ctrlp.vim'
 Plugin 'honza/vim-snippets'
-Plugin 'bling/vim-airline'
-"Plugin 'bling/vim-bufferline'
 Plugin 'nvie/vim-flake8'
-Plugin 'reedes/vim-pencil'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'terryma/vim-multiple-cursors'
 Plugin 'tpope/vim-commentary'
 Plugin 'tpope/vim-surround'
+
+" Navigation
+Plugin 'kien/ctrlp.vim'
+Plugin 'christoomey/vim-tmux-navigator'
+Plugin 'terryma/vim-multiple-cursors'
 Plugin 'mileszs/ack.vim'
 
-" Themes
+" Appearance
 Plugin 'chriskempson/base16-vim'
-Plugin 'w0ng/vim-hybrid'
+Plugin 'bling/vim-airline'
+"Plugin 'bling/vim-bufferline'
 
 " Syntax highlighting
 Plugin 'wting/rust.vim'
 Plugin 'zaiste/tmux.vim'
 Plugin 'dpwright/vim-tup'
 Plugin 'nachumk/systemverilog.vim'
+Plugin 'cespare/vim-toml'
+
+" Other
+Plugin 'reedes/vim-pencil'
 
 call vundle#end()
 filetype plugin indent on

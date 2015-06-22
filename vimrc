@@ -35,6 +35,7 @@ Plugin 'zaiste/tmux.vim'
 Plugin 'dpwright/vim-tup'
 Plugin 'nachumk/systemverilog.vim'
 Plugin 'cespare/vim-toml'
+Plugin 'beyondmarc/glsl.vim'
 
 " Other
 Plugin 'reedes/vim-pencil'
@@ -70,6 +71,7 @@ set scrolloff=5
 set visualbell t_vb=
 set mouse=a
 set backspace=indent,eol,start
+set clipboard=unnamed
 
 " Backup and swap
 " ===============
@@ -97,6 +99,9 @@ set foldmethod=indent
 set foldlevel=99
 set foldnestmax=20
 set foldcolumn=0
+
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview
 
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip
 " }}}
@@ -231,6 +236,12 @@ augroup FileTypeVim
   autocmd FileType vim setlocal foldmethod=marker
   autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
   autocmd FileType vim setlocal foldlevel=0
+augroup END
+
+augroup FileTypeCpp
+  autocmd!
+  autocmd FileType cpp setlocal foldmethod=syntax
+  autocmd FileType cpp setlocal shiftwidth=4 tabstop=4 softtabstop=4
 augroup END
 
 augroup FileTypeRust

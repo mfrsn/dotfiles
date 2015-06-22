@@ -4,6 +4,9 @@ compinit
 promptinit
 colors
 
+# Emacs mode
+bindkey -e
+
 PROMPT="
 %{$fg[red]%} » %{$reset_color%}"
 RPROMPT="%B%{$fg[cyan]%}%~%{$reset_color%}"
@@ -26,9 +29,13 @@ zstyle ':completion:*:*:*:*:users' list-colors '=*=$color[green]=$color[red]'
 zstyle ':completion:*' menu select
 
 # Base16 Shell
-BASE16_SCHEME="ocean"
-BASE16_SHELL="$HOME/.config/base16-shell/base16-$BASE16_SCHEME.dark.sh"
-[[ -s $BASE16_SHELL ]] && . $BASE16_SHELL
+#BASE16_SCHEME="ocean"
+#BASE16_SHELL="$HOME/.config/base16-shell/base16-$BASE16_SCHEME.dark.sh"
+#[[ -s $BASE16_SHELL ]] && . $BASE16_SHELL
+
+if [ -n "$PS1" ]; then
+    eval "$(~/Scripts/base16-shell/profile_helper.sh)"
+fi
 
 # Shortcut functions
 conf() {
@@ -70,6 +77,7 @@ alias du='du -c -h'
 #alias nasm='/usr/local/bin/nasm'
 #alias qemu='qemu-system-x86_64 '
 alias tmux="tmux -2"
+alias vim="nvim"
 
 # New commands
 alias ..='cd ..'
@@ -94,12 +102,11 @@ alias gcb='git checkout -b'
 # Path
 path+=~/bin
 path+=~/Scripts
-#path+=~/Tools/llvm/bin
-path+=~/Tools/MinGW64/bin
-path+=~/Tools/OSDev/bin
-#path+=~/.usr/local/bin
+path+=~/Tools/i686-elf/bin
+#path+=~/Tools/MinGW64/bin
+#path+=~/Tools/OSDev/bin
 path+=/usr/local/sbin
 
 export PATH="/usr/local/bin:$PATH"
-export EDITOR="vim"
-export SUDO_EDITOR="vim"
+export EDITOR="nvim"
+export SUDO_EDITOR="nvim"

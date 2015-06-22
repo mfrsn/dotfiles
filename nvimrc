@@ -16,6 +16,8 @@ Plug 'valloric/youcompleteme', {'do': './install.sh --clang-completer'}
 " Syntax highlighting
 Plug 'beyondmarc/glsl.vim'
 Plug 'octol/vim-cpp-enhanced-highlight'
+Plug 'rust-lang/rust.vim'
+Plug 'zaiste/tmux.vim'
 
 " Writing
 Plug 'reedes/vim-pencil'
@@ -26,15 +28,14 @@ call plug#end()
 filetype plugin indent on
 
 " Appearance {{{
-syntax enable
-let &t_Co=256
-let base16colorspace=256
-set background=dark
-colorscheme base16-ocean
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 " }}}
 
 " General Settings {{{
-let mapleader='-'
+let mapleader=' '   " Space
 set showcmd
 set encoding=utf-8
 set exrc            " Load .vimrc from cwd
@@ -87,8 +88,8 @@ set foldlevel=99
 set foldnestmax=20
 set foldcolumn=0
 
-"autocmd BufWinLeave *.* mkview
-"autocmd BufWinEnter *.* silent loadview
+autocmd BufWinLeave *.* mkview
+autocmd BufWinEnter *.* silent loadview
 " }}}
 
 " Keybindings ---- {{{
@@ -103,6 +104,7 @@ nnoremap <Up> <nop>
 nnoremap <Down> <nop>
 nnoremap <Left> <nop>
 nnoremap <Right> <nop>
+nnoremap <Space> <nop>
 
 nnoremap K i<Enter><Esc>
 nnoremap H ^
@@ -111,7 +113,7 @@ nnoremap <F5> :setlocal spell! spelllang=en_gb<CR>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
-nnoremap <space> :set hlsearch! hlsearch?<CR>
+nnoremap - :set hlsearch! hlsearch?<CR>
 
 onoremap in( :<c-u>normal! f(vi(<cr>
 onoremap il( :<c-u>normal! F)vi(<cr>
@@ -154,6 +156,11 @@ augroup FileTypeVim
   autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
 augroup END
 
+augroup FileTypeTex
+  autocmd!
+  autocmd FileType plaintex,tex setlocal foldmethod=marker
+augroup END
+
 augroup FileTypeCpp
   autocmd!
   autocmd FileType c,cpp setlocal foldmethod=syntax
@@ -194,6 +201,7 @@ let g:pencil#textwidth = 74
 let g:pencil#wrapModeDefault = 'soft'
 let g:airline_section_x = '%{PencilMode()}'
 let g:pencil#mode_indicators = {'hard': '␍', 'soft': '⤸', 'off': '',}
+let g:pencil#conceallevel = 0
 
 nnoremap <leader>ps :SoftPencil<CR>
 nnoremap <leader>ph :HardPencil<CR>
@@ -234,7 +242,3 @@ let g:pencil#autoformat_blacklist = [
         \ ]
 " }}}
 
-map <F8> :echo "hi<"
-\ . synIDattr(synID(line("."),col("."),1),"name") . '> trans<'
-\ . synIDattr(synID(line("."),col("."),0),"name") . "> lo<"
-\ . synIDattr(synIDtrans(synID(line("."),col("."),1)),"name") . ">"<CR>

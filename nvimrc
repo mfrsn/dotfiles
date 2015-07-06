@@ -8,6 +8,9 @@ Plug 'bling/vim-airline'
 " Navigation
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'kien/ctrlp.vim'
+
+" Behaviour
+Plug 'kopischke/vim-stay'
 Plug 'konfekt/fastfold'
 
 " Auto-completion
@@ -60,6 +63,7 @@ set backspace=indent,eol,start
 set clipboard=unnamed
 set ignorecase " Case-insensitive search by default.
 set smartcase  " Case-sensitive if there are capital-letters in search string.
+set viewoptions=cursor,folds,options,slash,unix
 
 " Backup and swap
 " ===============
@@ -85,11 +89,12 @@ set cinoptions+=(0,W4   " Align line breaks within parenthesis
 " ============
 set foldmethod=indent
 set foldlevel=99
+set foldlevelstart=99
 set foldnestmax=20
 set foldcolumn=0
 
-autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* silent loadview
+"autocmd BufWinLeave *.* mkview
+"autocmd BufWinEnter *.* silent loadview
 " }}}
 
 " Keybindings ---- {{{

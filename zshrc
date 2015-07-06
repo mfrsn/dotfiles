@@ -1,10 +1,10 @@
+# zsh setup {{{
 source ~/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
 autoload -U compinit promptinit colors
 compinit
 promptinit
 colors
 
-# Emacs mode
 bindkey -e
 
 PROMPT="
@@ -27,22 +27,19 @@ zstyle ':completion:*' list-colors 'reply=( "=(#b)(*$VAR)(?)*=00=$color[green]=$
 zstyle ':completion:*:*:*:*:hosts' list-colors '=*=30;41'
 zstyle ':completion:*:*:*:*:users' list-colors '=*=$color[green]=$color[red]'
 zstyle ':completion:*' menu select
+# }}}
 
 # Base16 Shell
-#BASE16_SCHEME="ocean"
-#BASE16_SHELL="$HOME/.config/base16-shell/base16-$BASE16_SCHEME.dark.sh"
-#[[ -s $BASE16_SHELL ]] && . $BASE16_SHELL
-
 if [ -n "$PS1" ]; then
     eval "$(~/Scripts/base16-shell/profile_helper.sh)"
 fi
 
-# Shortcut functions
+# Functions {{{
 conf() {
   case $1 in
-    zsh)    vim ~/.zshrc && source ~/.zshrc ;;
-    vim)    vim ~/.vimrc ;;
-    tmux)   vim ~/.tmux.conf ;;
+    zsh)    $EDITOR ~/.zshrc && source ~/.zshrc ;;
+    vim)    $EDITOR ~/.vimrc ;;
+    tmux)   $EDITOR ~/.tmux.conf ;;
     *)      echo "Unknown application" ;;
   esac
 }
@@ -50,11 +47,9 @@ conf() {
 course() {
   cd ~/Documents/School/$1
 }
+# }}}
 
-#
-#Aliases
-#
-
+# Aliases {{{
 # ls
 alias ls='ls -hFG'
 alias ll='ls -l'
@@ -98,15 +93,16 @@ alias gll='git log'
 alias ga='git add'
 alias gch='git checkout'
 alias gcb='git checkout -b'
+# }}}
 
 # Path
+path[1,0]=/usr/local/bin
 path+=~/bin
 path+=~/Scripts
 path+=~/Tools/i686-elf/bin
-#path+=~/Tools/MinGW64/bin
+path+=~/Tools/MinGW64/bin
 #path+=~/Tools/OSDev/bin
 path+=/usr/local/sbin
 
-export PATH="/usr/local/bin:$PATH"
 export EDITOR="nvim"
 export SUDO_EDITOR="nvim"

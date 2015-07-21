@@ -39,6 +39,7 @@ conf() {
   case $1 in
     zsh)    $EDITOR ~/.zshrc && source ~/.zshrc ;;
     vim)    $EDITOR ~/.vimrc ;;
+    nvim)   $EDITOR ~/.nvimrc ;;
     tmux)   $EDITOR ~/.tmux.conf ;;
     *)      echo "Unknown application" ;;
   esac
@@ -73,6 +74,7 @@ alias du='du -c -h'
 #alias qemu='qemu-system-x86_64 '
 alias tmux="tmux -2"
 alias vim="nvim"
+alias cal="gcal --iso-week-number=yes --starting-day=1"
 
 # New commands
 alias ..='cd ..'
@@ -96,7 +98,7 @@ alias gcb='git checkout -b'
 # }}}
 
 # Path
-path[1,0]=/usr/local/bin
+#path[1,0]=/usr/local/bin
 path+=~/bin
 path+=~/Scripts
 path+=~/Tools/i686-elf/bin

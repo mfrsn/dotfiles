@@ -8,6 +8,7 @@ Plug 'bling/vim-airline'
 " Navigation
 Plug 'christoomey/vim-tmux-navigator'
 Plug 'kien/ctrlp.vim'
+Plug 'mileszs/ack.vim'
 
 " Behaviour
 Plug 'kopischke/vim-stay'
@@ -130,28 +131,33 @@ nnoremap <Left> :bp<cr>
 nnoremap <Right> :bn<cr>
 
 " Neovim terminal
-tnoremap <Esc> <C-\><C-n>
-tnoremap <C-h> <C-\><C-n><C-w>h
-tnoremap <C-j> <C-\><C-n><C-w>j
-tnoremap <C-k> <C-\><C-n><C-w>k
-tnoremap <C-l> <C-\><C-n><C-w>l
+if has("nvim")
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <C-h> <C-\><C-n><C-w>h
+  tnoremap <C-j> <C-\><C-n><C-w>j
+  tnoremap <C-k> <C-\><C-n><C-w>k
+  tnoremap <C-l> <C-\><C-n><C-w>l
 
-augroup Terminal
-  autocmd!
-  autocmd BufEnter term://* startinsert
-augroup END
+  augroup Terminal
+    autocmd!
+    autocmd BufEnter term://* startinsert
+  augroup END
+endif
 
-" Emulate US keyboard
+" Jump to end of line on Swedish keyboard
 if has("mac")
   noremap € $
 else
   noremap ¤ $
 endif
-noremap å <C-J>
-noremap ö [
-noremap ä ]
+
+" ctags
+noremap ä <c-]>
+
+" Paragraph movement
 noremap Ö {
 noremap Ä }
+
 " }}}
 
 " Filetype settings {{{
@@ -199,6 +205,12 @@ let g:airline#extensions#tabline#left_alt_sep='|'
 " CtrlP {{{
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
+
+noremap <Tab> :CtrlPTag<cr>
+" }}}
+
+" ack.vim {{{
+let g:ackprg = 'ag --nogroup --nocolor --column'
 " }}}
 
 " vim-pencil {{{
@@ -211,6 +223,7 @@ let g:pencil#conceallevel = 0
 nnoremap <leader>ps :SoftPencil<CR>
 nnoremap <leader>ph :HardPencil<CR>
 nnoremap <leader>pn :NoPencil<CR>
+nnoremap <leader>pt :PFormatToggle<CR>
 
 let g:pencil#autoformat_blacklist = [
         \ 'markdownCode',

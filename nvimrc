@@ -25,6 +25,7 @@ Plug 'zaiste/tmux.vim'
 
 " Writing
 Plug 'reedes/vim-pencil'
+Plug 'godlygeek/tabular'
 
 call plug#end()
 " }}}
@@ -94,8 +95,8 @@ set foldlevelstart=99
 set foldnestmax=20
 set foldcolumn=0
 
-"autocmd BufWinLeave *.* mkview
-"autocmd BufWinEnter *.* silent loadview
+" Ignore files and folders
+set wildignore+=*.so,*.o,*.exe,*.pyc,*/pycache/*
 " }}}
 
 " Keybindings ---- {{{
@@ -113,8 +114,6 @@ nnoremap <Right> <nop>
 nnoremap <Space> <nop>
 
 nnoremap K i<Enter><Esc>
-nnoremap H ^
-nnoremap L $
 nnoremap <F5> :setlocal spell! spelllang=en_gb<CR>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
@@ -127,8 +126,8 @@ onoremap in{ :<c-u>normal! f{vi{<cr>
 onoremap il{ :<c-u>normal! F{vi{<cr>
 
 " Buffer switching
-nnoremap <Left> :bp<cr>
-nnoremap <Right> :bn<cr>
+nnoremap H :bp<CR>
+nnoremap L :bn<CR>
 
 " Neovim terminal
 if has("nvim")
@@ -205,6 +204,10 @@ let g:airline#extensions#tabline#left_alt_sep='|'
 " CtrlP {{{
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_custom_ignore = {
+  \ 'dir': '\v[\/]\.(git|hg|svn|bzr)$',
+  \ 'file': '\v\.(exe|so|dll|o)$',
+  \ }
 
 noremap <Tab> :CtrlPTag<cr>
 " }}}
@@ -258,5 +261,14 @@ let g:pencil#autoformat_blacklist = [
         \ 'asciidoc[A-Za-z]*Macro',
         \ 'asciidoc[A-Za-z]*Title',
         \ ]
+" }}}
+
+" Tabular {{{
+if exists(":Tabularize")
+  nnoremap <leader>= :Tabularize /=<CR>
+  vnoremap <leader>= :Tabularize /=<CR>
+  nnoremap <leader>: :Tabularize /:\zs<CR>
+  vnoremap <leader>: :Tabularize /:\zs<CR>
+endif
 " }}}
 

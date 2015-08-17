@@ -14,6 +14,9 @@ Plug 'mileszs/ack.vim'
 Plug 'kopischke/vim-stay'
 Plug 'konfekt/fastfold'
 
+Plug 'tpope/vim-fugitive'
+Plug 'benekastah/neomake'
+
 " Auto-completion
 Plug 'valloric/youcompleteme', {'do': './install.sh --clang-completer'}
 
@@ -26,6 +29,7 @@ Plug 'zaiste/tmux.vim'
 " Writing
 Plug 'reedes/vim-pencil'
 Plug 'godlygeek/tabular'
+Plug 'tpope/vim-commentary'
 
 call plug#end()
 " }}}
@@ -166,19 +170,22 @@ augroup FileTypeVim
   autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
 augroup END
 
-augroup FileTypeTex
-  autocmd!
-  autocmd FileType plaintex,tex setlocal foldmethod=marker
-augroup END
-
 augroup FileTypeCpp
   autocmd!
   autocmd FileType c,cpp setlocal foldmethod=syntax
+  autocmd FileType c,cpp setlocal commentstring=//\ %s
 augroup END
 
 augroup FileTypeTex
   autocmd!
+  autocmd FileType tex,plaintex setlocal foldmethod=marker
   autocmd FileType tex,plaintex setlocal shiftwidth=2 tabstop=2 softtabstop=2
+augroup END
+
+augroup FileTypeVim
+  autocmd!
+  autocmd FileType rst setlocal foldmethod=marker
+  autocmd FileType rst setlocal shiftwidth=3 tabstop=3 softtabstop=3
 augroup END
 
 augroup FileTypeBib
@@ -206,7 +213,7 @@ let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
 let g:ctrlp_custom_ignore = {
   \ 'dir': '\v[\/]\.(git|hg|svn|bzr)$',
-  \ 'file': '\v\.(exe|so|dll|o)$',
+  \ 'file': '\v\.(exe|so|dll|o|acn|acr|alg|aux|bbl|blg|brf|glg|glo|gls|idx|log|nlg|nlo|nls|out|toc|xdy)$',
   \ }
 
 noremap <Tab> :CtrlPTag<cr>
@@ -264,11 +271,9 @@ let g:pencil#autoformat_blacklist = [
 " }}}
 
 " Tabular {{{
-if exists(":Tabularize")
-  nnoremap <leader>= :Tabularize /=<CR>
-  vnoremap <leader>= :Tabularize /=<CR>
-  nnoremap <leader>: :Tabularize /:\zs<CR>
-  vnoremap <leader>: :Tabularize /:\zs<CR>
-endif
+nnoremap <leader>= :Tabularize /=<CR>
+vnoremap <leader>= :Tabularize /=<CR>
+nnoremap <leader>: :Tabularize /:\zs<CR>
+vnoremap <leader>: :Tabularize /:\zs<CR>
 " }}}
 

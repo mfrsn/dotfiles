@@ -7,18 +7,18 @@ Plug 'bling/vim-airline'
 
 " Navigation
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'kien/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mileszs/ack.vim'
 
 " Behaviour
 Plug 'kopischke/vim-stay'
 Plug 'konfekt/fastfold'
-
 Plug 'tpope/vim-fugitive'
-Plug 'benekastah/neomake'
 
 " Auto-completion
-Plug 'valloric/youcompleteme', {'do': './install.sh --clang-completer'}
+Plug 'valloric/youcompleteme', {'do': './install.py --clang-completer'}
+Plug 'SirVer/ultisnips'
+Plug 'ervandew/supertab'
 
 " Syntax highlighting
 Plug 'beyondmarc/glsl.vim'
@@ -202,6 +202,18 @@ let g:ycm_confirm_extra_conf = 0
 let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1 }
 " }}}
 
+" Tab Completion {{{
+" Make YCM compatible with UltiSnips
+let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+let g:SuperTabDefaultCompletionType = '<C-n>'
+
+" UltiSnips bindings
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+" }}}
+
 " vim-airline {{{
 let g:airline#extensions#tabline#enabled=1
 let g:airline#extensions#tabline#left_sep=' '
@@ -227,47 +239,13 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:pencil#textwidth = 74
 let g:pencil#wrapModeDefault = 'soft'
 let g:airline_section_x = '%{PencilMode()}'
-let g:pencil#mode_indicators = {'hard': '␍', 'soft': '⤸', 'off': '',}
+" let g:pencil#mode_indicators = {'hard': '␍', 'soft': '⤸', 'off': '',}
 let g:pencil#conceallevel = 0
 
 nnoremap <leader>ps :SoftPencil<CR>
 nnoremap <leader>ph :HardPencil<CR>
 nnoremap <leader>pn :NoPencil<CR>
 nnoremap <leader>pt :PFormatToggle<CR>
-
-let g:pencil#autoformat_blacklist = [
-        \ 'markdownCode',
-        \ 'markdownH[0-9]',
-        \ 'markdownUrl',
-        \ 'markdownIdDeclaration',
-        \ 'markdownLink',
-        \ 'markdownRule',
-        \ 'markdownHighlight[A-Za-z0-9]+',
-        \ 'mkdCode',
-        \ 'mkdRule',
-        \ 'mkdDelimiter',
-        \ 'mkdLink',
-        \ 'mkdListItem',
-        \ 'mkdIndentCode',
-        \ 'htmlH[0-9]',
-        \ 'markdownFencedCodeBlock',
-        \ 'markdownInlineCode',
-        \ 'mmdTable[A-Za-z0-9]*',
-        \ 'txtCode',
-        \ 'rstCodeBlock',
-        \ 'rstDirective',
-        \ 'rstLiteralBlock',
-        \ 'rstSections',
-        \ 'asciidocAttributeList',
-        \ 'asciidocListLabel',
-        \ 'asciidocLiteral',
-        \ 'asciidocSidebar',
-        \ 'asciidocSource',
-        \ 'asciidocSect[0-9]',
-        \ 'asciidoc[A-Za-z]*Block',
-        \ 'asciidoc[A-Za-z]*Macro',
-        \ 'asciidoc[A-Za-z]*Title',
-        \ ]
 " }}}
 
 " Tabular {{{

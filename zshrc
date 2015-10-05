@@ -18,6 +18,7 @@ setopt APPEND_HISTORY
 setopt SHARE_HISTORY
 setopt HIST_VERIFY
 setopt HIST_IGNORE_ALL_DUPS
+# setopt MENU_COMPLETE
 export HISTFILE="${HOME}"/.zsh_history
 export HISTSIZE=1000
 export SAVEHIST=$HISTSIZE
@@ -27,6 +28,7 @@ zstyle ':completion:*' list-colors 'reply=( "=(#b)(*$VAR)(?)*=00=$color[green]=$
 zstyle ':completion:*:*:*:*:hosts' list-colors '=*=30;41'
 zstyle ':completion:*:*:*:*:users' list-colors '=*=$color[green]=$color[red]'
 zstyle ':completion:*' menu select
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 # }}}
 
 # Base16 Shell
@@ -95,18 +97,18 @@ alias ......='cd ../../..'
 #alias gpg='gpg2'
 
 # Git
-alias gs='git status'
-alias gf='git fetch'
-alias gc='git commit'
-alias gm='git merge'
-alias gmo='git merge origin/master'
-alias gp='git push'
-alias gb='git branch'
-alias gl='git log --oneline'
-alias gll='git log'
-alias ga='git add'
-alias gch='git checkout'
-alias gcb='git checkout -b'
+# alias gs='git status'
+# alias gf='git fetch'
+# alias gc='git commit'
+# alias gm='git merge'
+# alias gmo='git merge origin/master'
+# alias gp='git push'
+# alias gb='git branch'
+# alias gl='git log --oneline'
+# alias gll='git log'
+# alias ga='git add'
+# alias gch='git checkout'
+# alias gcb='git checkout -b'
 # }}}
 
 # Path

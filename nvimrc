@@ -54,11 +54,11 @@ set splitright
 set splitbelow
 set nowrap
 set numberwidth=1
+set number
 set relativenumber
 set autoread
 set ruler           " Add column number
 set cursorline      " Highlight cursorline
-set incsearch
 set laststatus=2
 set ttimeout
 set ttimeoutlen=0
@@ -67,18 +67,20 @@ set visualbell t_vb=
 set mouse=a
 set backspace=indent,eol,start
 set clipboard=unnamed
-set ignorecase " Case-insensitive search by default.
-set smartcase  " Case-sensitive if there are capital-letters in search string.
 set viewoptions=cursor,folds,options,slash,unix
 
+" Search settings
+set incsearch
+set nohlsearch
+set ignorecase " Case-insensitive search by default.
+set smartcase  " Case-sensitive if there are capital-letters in search string.
+
 " Backup and swap
-" ===============
 set nobackup
 set noswapfile
 set nowritebackup
 
 " Tab settings
-" ============
 set expandtab
 set smarttab
 set shiftwidth=4
@@ -86,13 +88,11 @@ set tabstop=4
 set softtabstop=4
 
 " Indent settings
-" ===============
 set cindent
 set cinoptions+=g0      " C++ scope declarations in first column
 set cinoptions+=(0,W4   " Align line breaks within parenthesis
 
 " Code folding
-" ============
 set foldmethod=indent
 set foldlevel=99
 set foldlevelstart=99
@@ -146,21 +146,6 @@ if has("nvim")
     autocmd BufEnter term://* startinsert
   augroup END
 endif
-
-" Jump to end of line on Swedish keyboard
-if has("mac")
-  noremap € $
-else
-  noremap ¤ $
-endif
-
-" ctags
-noremap ä <c-]>
-
-" Paragraph movement
-noremap Ö {
-noremap Ä }
-
 " }}}
 
 " Filetype settings {{{
@@ -223,12 +208,13 @@ let g:airline#extensions#tabline#left_alt_sep='|'
 " CtrlP {{{
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_cmd = 'CtrlPMixed'
+let g:ctrlp_working_path_mode = 'ra'
 let g:ctrlp_custom_ignore = {
   \ 'dir': '\v[\/]\.(git|hg|svn|bzr)$',
   \ 'file': '\v\.(exe|so|dll|o|acn|acr|alg|aux|bbl|blg|brf|glg|glo|gls|idx|log|nlg|nlo|nls|out|toc|xdy)$',
   \ }
 
-noremap <Tab> :CtrlPTag<cr>
+" noremap <Tab> :CtrlPTag<cr>
 " }}}
 
 " ack.vim {{{
@@ -251,6 +237,8 @@ nnoremap <leader>pt :PFormatToggle<CR>
 " Tabular {{{
 nnoremap <leader>= :Tabularize /=<CR>
 vnoremap <leader>= :Tabularize /=<CR>
+nnoremap <leader>& :Tabularize /&<CR>
+vnoremap <leader>& :Tabularize /&<CR>
 nnoremap <leader>: :Tabularize /:\zs<CR>
 vnoremap <leader>: :Tabularize /:\zs<CR>
 " }}}

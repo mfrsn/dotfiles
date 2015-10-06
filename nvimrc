@@ -1,5 +1,9 @@
 " vim-plug setup {{{
-call plug#begin('~/.nvim/plugged')
+if has("nvim")
+  call plug#begin('~/.nvim/plugged')
+else
+  call plug#begin('~/.vim/plugged')
+endif
 
 " Themes
 Plug 'chriskempson/base16-vim'
@@ -45,6 +49,7 @@ endif
 
 " General Settings {{{
 let mapleader=' '   " Space
+let maplocalleader='\\'
 set showcmd
 set encoding=utf-8
 set exrc            " Load .vimrc from cwd
@@ -129,6 +134,9 @@ onoremap il( :<c-u>normal! F)vi(<cr>
 onoremap in{ :<c-u>normal! f{vi{<cr>
 onoremap il{ :<c-u>normal! F{vi{<cr>
 
+" Convert current word to uppercase
+inoremap <c-u> <esc>viwUea
+
 " Buffer switching
 nnoremap H :bp<CR>
 nnoremap L :bn<CR>
@@ -165,12 +173,6 @@ augroup FileTypeTex
   autocmd!
   autocmd FileType tex,plaintex setlocal foldmethod=marker
   autocmd FileType tex,plaintex setlocal shiftwidth=2 tabstop=2 softtabstop=2
-augroup END
-
-augroup FileTypeVim
-  autocmd!
-  autocmd FileType rst setlocal foldmethod=marker
-  autocmd FileType rst setlocal shiftwidth=3 tabstop=3 softtabstop=3
 augroup END
 
 augroup FileTypeBib

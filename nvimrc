@@ -25,7 +25,7 @@ Plug 'konfekt/fastfold'
 " Auto-completion
 Plug 'valloric/youcompleteme', {'do': './install.py --clang-completer'}
 Plug 'SirVer/ultisnips'
-Plug 'ervandew/supertab'
+" Plug 'ervandew/supertab'
 
 " Syntax highlighting
 Plug 'beyondmarc/glsl.vim'
@@ -197,14 +197,14 @@ let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1 }
 
 " Tab Completion {{{
 " Make YCM compatible with UltiSnips
-let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-let g:SuperTabDefaultCompletionType = '<C-n>'
+" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
+" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
+" let g:SuperTabDefaultCompletionType = '<C-n>'
 
 " UltiSnips bindings
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsJumpForwardTrigger="<c-j>"
+let g:UltiSnipsJumpBackwardTrigger="<c-k>"
 " }}}
 
 " vim-airline {{{
@@ -221,8 +221,8 @@ let g:tmuxline_preset = {
   \'win'  : '#I #W',
   \'cwin' : '#I #W',
   \'x'    : '',
-  \'y'    : '',
-  \'z'    : '%R'}
+  \'y'    : '%R',
+  \'z'    : '#h'}
 " }}}
 
 " CtrlP {{{

@@ -122,3 +122,14 @@ path+=/usr/local/sbin
 
 export EDITOR="nvim"
 export SUDO_EDITOR="nvim"
+
+# FZF {{{
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
+
+fe() {
+  local file
+  file=$(fzf --query="$1" --select-1 --exit-0)
+  [ -n "$file" ] && $EDITOR "$file"
+}
+
+# }}}

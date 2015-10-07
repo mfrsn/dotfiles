@@ -8,16 +8,19 @@ endif
 " Themes
 Plug 'chriskempson/base16-vim'
 Plug 'bling/vim-airline'
+Plug 'edkolev/tmuxline.vim'
 
 " Navigation
 Plug 'christoomey/vim-tmux-navigator'
-Plug 'ctrlpvim/ctrlp.vim'
+" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mileszs/ack.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf.vim'
+Plug 'tpope/vim-fugitive'
 
 " Behaviour
 Plug 'kopischke/vim-stay'
 Plug 'konfekt/fastfold'
-Plug 'tpope/vim-fugitive'
 
 " Auto-completion
 Plug 'valloric/youcompleteme', {'do': './install.py --clang-completer'}
@@ -64,9 +67,6 @@ set relativenumber
 set autoread
 set ruler           " Add column number
 set cursorline      " Highlight cursorline
-set laststatus=2
-set ttimeout
-set ttimeoutlen=0
 set scrolloff=5
 set visualbell t_vb=
 set mouse=a
@@ -121,6 +121,8 @@ nnoremap <Down> <nop>
 nnoremap <Left> <nop>
 nnoremap <Right> <nop>
 nnoremap <Space> <nop>
+nnoremap <cr> <nop>
+nnoremap <bs> <nop>
 
 nnoremap K i<Enter><Esc>
 nnoremap <F5> :setlocal spell! spelllang=en_gb<CR>
@@ -140,6 +142,10 @@ inoremap <c-u> <esc>viwUea
 " Buffer switching
 nnoremap H :bp<CR>
 nnoremap L :bn<CR>
+
+" fzf keybindings
+nnoremap <silent> <c-p> :Files<cr>
+nnoremap <silent> <cr> :Tags<cr>
 
 " Neovim terminal
 if has("nvim")
@@ -202,19 +208,31 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 " }}}
 
 " vim-airline {{{
+set laststatus=2 " Make sure airline is always visible
 let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#tabline#left_sep=' '
-let g:airline#extensions#tabline#left_alt_sep='|'
+let g:airline_powerline_fonts=1
+" }}}
+
+" tmuxline.vim {{{
+let g:tmuxline_preset = {
+  \'a'    : '#S',
+  \'b'    : '',
+  \'c'    : '',
+  \'win'  : '#I #W',
+  \'cwin' : '#I #W',
+  \'x'    : '',
+  \'y'    : '',
+  \'z'    : '%R'}
 " }}}
 
 " CtrlP {{{
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlPMixed'
-let g:ctrlp_working_path_mode = 'ra'
-let g:ctrlp_custom_ignore = {
-  \ 'dir': '\v[\/]\.(git|hg|svn|bzr)$',
-  \ 'file': '\v\.(exe|so|dll|o|acn|acr|alg|aux|bbl|blg|brf|glg|glo|gls|idx|log|nlg|nlo|nls|out|toc|xdy)$',
-  \ }
+" let g:ctrlp_map = '<c-p>'
+" let g:ctrlp_cmd = 'CtrlPMixed'
+" let g:ctrlp_working_path_mode = 'ra'
+" let g:ctrlp_custom_ignore = {
+"   \ 'dir': '\v[\/]\.(git|hg|svn|bzr)$',
+"   \ 'file': '\v\.(exe|so|dll|o|acn|acr|alg|aux|bbl|blg|brf|glg|glo|gls|idx|log|nlg|nlo|nls|out|toc|xdy)$',
+"   \ }
 
 " noremap <Tab> :CtrlPTag<cr>
 " }}}

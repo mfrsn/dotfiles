@@ -212,14 +212,14 @@ let g:airline_powerline_fonts=1
 
 " tmuxline.vim {{{
 let g:tmuxline_preset = {
-  \'a'    : '#S',
-  \'b'    : '',
+  \'a'    : '#h',
+  \'b'    : '#S',
   \'c'    : '',
   \'win'  : '#I #W',
   \'cwin' : '#I #W',
   \'x'    : '',
-  \'y'    : '%R',
-  \'z'    : '#h'}
+  \'y'    : '%a %b %d',
+  \'z'    : '%R'}
 " }}}
 
 " CtrlP {{{

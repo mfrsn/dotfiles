@@ -51,64 +51,61 @@ endif
 " }}}
 
 " General Settings {{{
-let mapleader=' '   " Space
-let maplocalleader='\\'
-set showcmd
-set encoding=utf-8
-set exrc            " Load .vimrc from cwd
-set secure
-set hidden          " Allow switching buffers without saving
-set splitright
-set splitbelow
-set nowrap
-set numberwidth=1
-set number
-set relativenumber
-set autoread
-set ruler           " Add column number
-set cursorline      " Highlight cursorline
-set scrolloff=5
-set visualbell t_vb=
-set mouse=a
-set backspace=indent,eol,start
-set clipboard=unnamed
+set encoding=utf-8              " Force UTF-8
+set showcmd                     " Always show the current command
+set exrc                        " Load rc from current directory if present
+set secure                      " Disallow shell commands in exrc
+set hidden                      " Allow switching buffers without saving
+set splitright                  " Vertical split to the right
+set splitbelow                  " Horizontal split below
+set nowrap                      " Do not wrap lines
+set numberwidth=1               " Mininum number of columns in line number gutter
+set number                      " Show current line number
+set relativenumber              " Use relative line numbers
+set autoread                    " Automatically reload changed files
+set ruler                       " Add column number
+set cursorline                  " Highlight current line
+set scrolloff=5                 " Minimum no. lines visible above and below the cursor
+set visualbell t_vb=            " Disable bell sound and visual flash
+set mouse=a                     " Enable mouse in all modes
+set backspace=indent,eol,start  " Sane backspace behaviour
+set clipboard=unnamed           " Use the '*' register as the unnamed register
+
+set incsearch                   " Show search matches continously
+set nohlsearch                  " Do not highlight matches
+set ignorecase                  " Case-insensitive search by default.
+set smartcase                   " Case-sensitive if there are capital-letters in search string
+
+set nobackup                    " Don't use backup files
+set noswapfile                  " Don't use swapfiles
+
+set expandtab                   " Insert spaces when pressing tab
+set smarttab                    " Insert shiftwidth no. blanks when pressing tab
+set shiftwidth=4                " Size of indentation (autoindent, <<, >>)
+set tabstop=4                   " The no. spaces a tab represents
+set softtabstop=4               " Make sure vim uses the appropriate number of spaces
+
+set cindent                     " Enable C autoindent
+set cinoptions+=g0              " C++ scope declarations in first column
+set cinoptions+=(0,W4           " Align line breaks within parenthesis
+
+set foldmethod=indent           " Fold based on indentation
+set foldlevel=99                " Don't autofold
+set foldlevelstart=99           " Don't autofold
+set foldnestmax=20              " Max no. nested folds
+set foldcolumn=0                " Don't show folds in the line number gutter
+
+" Options to save into views
 set viewoptions=cursor,folds,options,slash,unix
-
-" Search settings
-set incsearch
-set nohlsearch
-set ignorecase " Case-insensitive search by default.
-set smartcase  " Case-sensitive if there are capital-letters in search string.
-
-" Backup and swap
-set nobackup
-set noswapfile
-set nowritebackup
-
-" Tab settings
-set expandtab
-set smarttab
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
-
-" Indent settings
-set cindent
-set cinoptions+=g0      " C++ scope declarations in first column
-set cinoptions+=(0,W4   " Align line breaks within parenthesis
-
-" Code folding
-set foldmethod=indent
-set foldlevel=99
-set foldlevelstart=99
-set foldnestmax=20
-set foldcolumn=0
 
 " Ignore files and folders
 set wildignore+=*.so,*.o,*.exe,*.pyc,*/pycache/*
 " }}}
 
 " Keybindings ---- {{{
+let mapleader=' '
+let maplocalleader='\\'
+
 inoremap jk <Esc>
 inoremap <Esc> <nop>
 

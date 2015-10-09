@@ -67,7 +67,6 @@ man() {
 
 # Aliases {{{
 # ls
-alias ls='ls -hFG'
 alias ll='ls -l'
 alias lr='ls -R'
 alias la='ll -A'

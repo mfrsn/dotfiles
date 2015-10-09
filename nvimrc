@@ -44,10 +44,9 @@ call plug#end()
 filetype plugin indent on
 
 " Appearance {{{
-if filereadable(expand("~/.vimrc_background"))
-  let base16colorspace=256
-  source ~/.vimrc_background
-endif
+let base16colorspace=256
+set background=dark
+colorscheme base16-eighties
 " }}}
 
 " General Settings {{{

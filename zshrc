@@ -1,5 +1,10 @@
 # zsh setup {{{
-source ~/.config/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh
+if [[ $(uname) == "Darwin" ]]; then
+    source ~/.zshrc.darwin
+else
+    source ~/.zshrc.linux
+fi
+
 autoload -U compinit promptinit colors
 compinit
 promptinit
@@ -47,10 +52,6 @@ conf() {
   esac
 }
 
-course() {
-  cd ~/Documents/School/$1
-}
-
 # Colored man pages
 man() {
   env LESS_TERMCAP_mb=$'\E[01;31m' \
@@ -79,36 +80,16 @@ alias lm='la | less'
 alias cp='cp -i'
 alias mv='mv -i'
 alias grep='grep -i'
-#alias diff='colordiff'
 alias mkdir='mkdir -p -v'
 alias ping='ping -c 5'
 alias df='df -h'
 alias du='du -c -h'
-#alias nasm='/usr/local/bin/nasm'
-#alias qemu='qemu-system-x86_64 '
 alias tmux="tmux -2"
-alias vim="nvim"
-alias cal="gcal --iso-week-number=yes --starting-day=1"
 
 # New commands
 alias ..='cd ..'
 alias ....='cd ../..'
 alias ......='cd ../../..'
-#alias gpg='gpg2'
-
-# Git
-# alias gs='git status'
-# alias gf='git fetch'
-# alias gc='git commit'
-# alias gm='git merge'
-# alias gmo='git merge origin/master'
-# alias gp='git push'
-# alias gb='git branch'
-# alias gl='git log --oneline'
-# alias gll='git log'
-# alias ga='git add'
-# alias gch='git checkout'
-# alias gcb='git checkout -b'
 # }}}
 
 # Path
@@ -119,9 +100,6 @@ path+=~/Tools/i686-elf/bin
 path+=~/Tools/MinGW64/bin
 #path+=~/Tools/OSDev/bin
 path+=/usr/local/sbin
-
-export EDITOR="nvim"
-export SUDO_EDITOR="nvim"
 
 # FZF {{{
 [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
@@ -137,5 +115,4 @@ fo() {
   file=$(fzf --query="$1" --select-1 --exit-0)
   [ -n "$file" ] && open "$file"
 }
-
 # }}}

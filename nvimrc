@@ -12,7 +12,6 @@ Plug 'edkolev/tmuxline.vim'
 
 " Navigation
 Plug 'christoomey/vim-tmux-navigator'
-" Plug 'ctrlpvim/ctrlp.vim'
 Plug 'mileszs/ack.vim'
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'junegunn/fzf.vim'
@@ -23,9 +22,7 @@ Plug 'kopischke/vim-stay'
 Plug 'konfekt/fastfold'
 
 " Auto-completion
-Plug 'valloric/youcompleteme', {'do': './install.py --clang-completer'}
 Plug 'SirVer/ultisnips'
-" Plug 'ervandew/supertab'
 
 " Syntax highlighting
 Plug 'beyondmarc/glsl.vim'

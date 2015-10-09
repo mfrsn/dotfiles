@@ -23,7 +23,7 @@ Plug 'kopischke/vim-stay'
 Plug 'konfekt/fastfold'
 
 " Auto-completion
-Plug 'valloric/youcompleteme', {'do': './install.py --clang-completer'}
+Plug 'valloric/youcompleteme', {'do': 'python2 install.py --clang-completer'}
 Plug 'SirVer/ultisnips'
 " Plug 'ervandew/supertab'
 

@@ -33,7 +33,7 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 # Base16 Shell
 if [ -n "$PS1" ]; then
-    eval "$(~/Scripts/base16-shell/profile_helper.sh)"
+    eval "$(~/dev/co/base16-shell/profile_helper.sh)"
 fi
 
 # Functions {{{

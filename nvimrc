@@ -51,7 +51,10 @@ endif
 " }}}
 
 " General Settings {{{
-set encoding=utf-8              " Force UTF-8
+if !has('nvim')
+  set encoding=utf-8            " Force UTF-8
+endif
+
 set showcmd                     " Always show the current command
 set exrc                        " Load rc from current directory if present
 set secure                      " Disallow shell commands in exrc
@@ -119,14 +122,13 @@ nnoremap <Left> <nop>
 nnoremap <Right> <nop>
 nnoremap <Space> <nop>
 nnoremap <cr> <nop>
-nnoremap <bs> <nop>
 
 nnoremap K i<Enter><Esc>
 nnoremap <F5> :setlocal spell! spelllang=en_gb<CR>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
-nnoremap - :set hlsearch! hlsearch?<CR>
+nnoremap <bs> :set hlsearch! hlsearch?<cr>
 
 onoremap in( :<c-u>normal! f(vi(<cr>
 onoremap il( :<c-u>normal! F)vi(<cr>
@@ -140,9 +142,15 @@ inoremap <c-u> <esc>viwUea
 nnoremap H :bp<CR>
 nnoremap L :bn<CR>
 
+" Open a new empty buffer
+nnoremap <leader>T :enew<cr>
+
+" Close current buffer and move to the previous one
+nnoremap <leader>W :bp <bar> bd #<cr>
+
 " fzf keybindings
-nnoremap <silent> <c-p> :Files<cr>
-nnoremap <silent> <cr> :Tags<cr>
+nnoremap <silent> <leader>f :Files<cr>
+nnoremap <silent> <leader>t :Tags<cr>
 
 " Neovim terminal
 if has("nvim")
@@ -181,6 +189,11 @@ augroup END
 augroup FileTypeBib
   autocmd!
   autocmd FileType bib setlocal shiftwidth=2 tabstop=2 softtabstop=2
+augroup END
+
+augroup FileTypeRst
+  autocmd!
+  autocmd FileType rst setlocal shiftwidth=2 tabstop=2 softtabstop=2
 augroup END
 
 let g:tex_flavor = "latex"
@@ -242,13 +255,19 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 let g:pencil#textwidth = 74
 let g:pencil#wrapModeDefault = 'soft'
 let g:airline_section_x = '%{PencilMode()}'
-" let g:pencil#mode_indicators = {'hard': '␍', 'soft': '⤸', 'off': '',}
-let g:pencil#conceallevel = 0
+let g:pencil#conceallevel = 3
+let g:pencil#concealcursor = 'c'
 
 nnoremap <leader>ps :SoftPencil<CR>
 nnoremap <leader>ph :HardPencil<CR>
 nnoremap <leader>pn :NoPencil<CR>
 nnoremap <leader>pt :PFormatToggle<CR>
+
+augroup Pencil
+  autocmd!
+  autocmd Filetype rst call pencil#init({'wrap': 'hard', 'autoformat': 0})
+  autocmd Filetype tex call pencil#init({'wrap': 'hard', 'autoformat': 1})
+augroup END
 " }}}
 
 " Tabular {{{

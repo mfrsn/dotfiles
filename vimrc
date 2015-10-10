@@ -1,193 +1,84 @@
-" Initial setup
-" =============
-set nocompatible
-filetype off
-
-" Vundle Plugins ---- {{{
-set rtp+=~/.vim/bundle/vundle/
-call vundle#begin()
-
-" Required
-Plugin 'gmarik/vundle'
-
-" Linting/syntax
-Plugin 'Valloric/YouCompleteMe'
-Plugin 'SirVer/ultisnips'
-Plugin 'honza/vim-snippets'
-Plugin 'nvie/vim-flake8'
-Plugin 'tpope/vim-commentary'
-Plugin 'tpope/vim-surround'
-
-" Navigation
-Plugin 'kien/ctrlp.vim'
-Plugin 'christoomey/vim-tmux-navigator'
-Plugin 'terryma/vim-multiple-cursors'
-Plugin 'mileszs/ack.vim'
-
-" Appearance
-Plugin 'chriskempson/base16-vim'
-Plugin 'bling/vim-airline'
-"Plugin 'bling/vim-bufferline'
-
-" Syntax highlighting
-Plugin 'wting/rust.vim'
-Plugin 'zaiste/tmux.vim'
-Plugin 'dpwright/vim-tup'
-Plugin 'nachumk/systemverilog.vim'
-Plugin 'cespare/vim-toml'
-Plugin 'beyondmarc/glsl.vim'
-
-" Other
-Plugin 'reedes/vim-pencil'
-
-call vundle#end()
-filetype plugin indent on
-" }}}
-
-if has("mac")
+if has('nvim')
+  let s:vimroot = expand('~/.nvim')
+else
+  let s:vimroot = expand('~/.vim')
 endif
 
-" General Settings ---- {{{
-let mapleader='-'
-set showcmd
-set encoding=utf-8
-set exrc            " Load .vimrc from cwd
-set secure
-set hidden          " Allow switching buffers without saving
-set splitright
-set splitbelow
-set nowrap
-"set number
-set numberwidth=1
-set relativenumber
-set autoread
-set ttyfast
-set ruler           " Add column number
-set cursorline      " Highlight cursorline
-set incsearch
-set laststatus=2
-"set ttimeoutlen=50
-set scrolloff=5
-set visualbell t_vb=
-set mouse=a
-set backspace=indent,eol,start
-set clipboard=unnamed
+let s:plugroot = s:vimroot . '/bundle'
+function! s:PlugExists(name)
+  return !empty(glob(s:plugroot . '/' . a:name))
+endfunction
 
-" Backup and swap
-" ===============
-set nobackup
-set noswapfile
-set nowritebackup
+execute pathogen#infect()
+syntax on
+filetype plugin indent on
 
-" Tab settings
-" ============
-set expandtab
-set smarttab
-set shiftwidth=2
-set tabstop=2
-set softtabstop=2
-
-" Indent settings
-" ===============
-set cindent
-set cinoptions+=g0      " C++ scope declarations in first column
-set cinoptions+=(0,W4   " Align line breaks within parenthesis
-
-" Code folding
-" ============
-set foldmethod=indent
-set foldlevel=99
-set foldnestmax=20
-set foldcolumn=0
-
-autocmd BufWinLeave *.* mkview
-autocmd BufWinEnter *.* silent loadview
-
-set wildignore+=*/tmp/*,*.so,*.swp,*.zip
+" Appearance {{{
+if filereadable(expand("~/.vimrc_background"))
+  let base16colorspace=256
+  source ~/.vimrc_background
+endif
 " }}}
 
-" Plugin Settings ---- {{{
-" YouCompleteMe
-" =============
-let g:ycm_global_ycm_extra_conf = "~/.vim/.ycm_extra_conf.py"
-let g:ycm_collect_identifiers_from_tags = 1
-let g:ycm_extra_conf_globlist = ['~/Programming/*', '!~/*']
-let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1 }
-let g:ycm_autoclose_preview_window_after_completion = 1
-let g:ycm_key_list_select_completion = []
-let g:ycm_key_list_previous_completion = []
+" General Settings {{{
+if !has('nvim')
+  set encoding=utf-8            " Force UTF-8
+endif
 
-" UltiSnips
-" =========
-let g:UltiSnipsExpandTrigger = "<tab>"
-let g:UltiSnipsJumpForwardTrigger = "<tab>"
-let g:UltiSnipsJumpBackwardTrigger = "<s-tab>"
+set showcmd                     " Always show the current command
+set exrc                        " Load rc from current directory if present
+set secure                      " Disallow shell commands in exrc
+set hidden                      " Allow switching buffers without saving
+set splitright                  " Vertical split to the right
+set splitbelow                  " Horizontal split below
+set nowrap                      " Do not wrap lines
+set numberwidth=1               " Mininum number of columns in line number gutter
+set number                      " Show current line number
+set relativenumber              " Use relative line numbers
+set autoread                    " Automatically reload changed files
+set ruler                       " Add column number
+set cursorline                  " Highlight current line
+set scrolloff=5                 " Minimum no. lines visible above and below the cursor
+set visualbell t_vb=            " Disable bell sound and visual flash
+set mouse=a                     " Enable mouse in all modes
+set backspace=indent,eol,start  " Sane backspace behaviour
+set clipboard=unnamed           " Use the '*' register as the unnamed register
 
-" Run flake8 every time a python file is saved
-" autocmd BufWritePost *.py call Flake8()
+set incsearch                   " Show search matches continously
+set nohlsearch                  " Do not highlight matches
+set ignorecase                  " Case-insensitive search by default.
+set smartcase                   " Case-sensitive if there are capital-letters in search string
 
-" vim-airline
-" ===========
-let g:airline#extensions#tabline#enabled=1
-let g:airline#extensions#tabline#left_sep=' '
-let g:airline#extensions#tabline#left_alt_sep='|'
+set nobackup                    " Don't use backup files
+set noswapfile                  " Don't use swapfiles
 
-" ctrlp
-" =====
-let g:ctrlp_map = '<c-p>'
-let g:ctrlp_cmd = 'CtrlP'
-let g:ctrlp_working_path_mode = 'ra'
-" nnoremap <C-O> :CtrlPBuffer<cr>
-nnoremap <leader>. :CtrlPTag<cr>
+set expandtab                   " Insert spaces when pressing tab
+set smarttab                    " Insert shiftwidth no. blanks when pressing tab
+set shiftwidth=4                " Size of indentation (autoindent, <<, >>)
+set tabstop=4                   " The no. spaces a tab represents
+set softtabstop=4               " Make sure vim uses the appropriate number of spaces
 
-" vim-pencil
-" ==========
-let g:pencil#textwidth = 74
-let g:pencil#wrapModeDefault = 'hard'
-let g:pencil#autoformat = 0
-let g:pencil#conceallevel = 0
+set cindent                     " Enable C autoindent
+set cinoptions+=g0              " C++ scope declarations in first column
+set cinoptions+=(0,W4           " Align line breaks within parenthesis
 
-augroup pencil
-  autocmd!
-  autocmd FileType tex call pencil#init({'wrap': 'hard', 'autoformat': 1})
-  autocmd FileType rst call pencil#init({'wrap': 'hard', 'autoformat': 1})
-  autocmd FileType gitcommit call pencil#init({'wrap': 'hard', 'autoformat': 1, 'textwidth': 72})
-  autocmd FileType text call pencil#init({'wrap': 'hard'})
-augroup END
+set foldmethod=indent           " Fold based on indentation
+set foldlevel=99                " Don't autofold
+set foldlevelstart=99           " Don't autofold
+set foldnestmax=20              " Max no. nested folds
+set foldcolumn=0                " Don't show folds in the line number gutter
 
-nnoremap <silent> <leader>ps :SoftPencil<cr>
-nnoremap <silent> <leader>ph :HardPencil<cr>
-nnoremap <silent> <leader>pn :NoPencil<cr>
-nnoremap <silent> <leader>pt :TogglePencil<cr>
-nnoremap <silent> <leader>pa :AutoPencil<cr>
-nnoremap <silent> <leader>pm :ManualPencil<cr>
-nnoremap <silent> <leader>pp :ShiftPencil<cr>
+" Options to save into views
+set viewoptions=cursor,folds,options,slash,unix
 
-" vim-commentary
-" ==============
-autocmd FileType cpp set commentstring=//\ %s
-" }}}
-
-" Appearance ---- {{{
-" Theme
-" =====
-syntax enable
-"colorscheme hybrid
-let &t_Co=256
-let base16colorspace=256
-set background=dark
-colorscheme base16-ocean
-set linespace=0
-
-" GUI settings
-set guifont=Consolas:h12,Menlo\ Regular:h11,Courier\ New:h11
-set guioptions-=r
-set guioptions-=R
-set guioptions-=l
-set guioptions-=L
+" Ignore files and folders
+set wildignore+=*.so,*.o,*.exe,*.pyc,*/pycache/*
 " }}}
 
 " Keybindings ---- {{{
+let mapleader=' '
+let maplocalleader='\\'
+
 inoremap jk <Esc>
 inoremap <Esc> <nop>
 
@@ -199,54 +90,164 @@ nnoremap <Up> <nop>
 nnoremap <Down> <nop>
 nnoremap <Left> <nop>
 nnoremap <Right> <nop>
+nnoremap <Space> <nop>
+nnoremap <cr> <nop>
 
 nnoremap K i<Enter><Esc>
-nnoremap H ^
-nnoremap L $
 nnoremap <F5> :setlocal spell! spelllang=en_gb<CR>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
+
+nnoremap <bs> :set hlsearch! hlsearch?<cr>
 
 onoremap in( :<c-u>normal! f(vi(<cr>
 onoremap il( :<c-u>normal! F)vi(<cr>
 onoremap in{ :<c-u>normal! f{vi{<cr>
 onoremap il{ :<c-u>normal! F{vi{<cr>
 
-" Emulate US keyboard
-if has("mac")
-  noremap € $
-else
-  noremap ¤ $
+" Convert current word to uppercase
+inoremap <c-u> <esc>viwUea
+
+" Buffer switching
+nnoremap H :bp<CR>
+nnoremap L :bn<CR>
+
+" Open a new empty buffer
+nnoremap <leader>T :enew<cr>
+
+" Close current buffer and move to the previous one
+nnoremap <leader>W :bp <bar> bd #<cr>
+
+" fzf keybindings
+nnoremap <silent> <leader>f :Files<cr>
+nnoremap <silent> <leader>t :Tags<cr>
+
+" Neovim terminal
+if has('nvim')
+  tnoremap <Esc> <C-\><C-n>
+  tnoremap <C-h> <C-\><C-n><C-w>h
+  tnoremap <C-j> <C-\><C-n><C-w>j
+  tnoremap <C-k> <C-\><C-n><C-w>k
+  tnoremap <C-l> <C-\><C-n><C-w>l
+
+  augroup Terminal
+    autocmd!
+    autocmd BufEnter term://* startinsert
+  augroup END
 endif
-noremap å <C-J>
-noremap ö [
-noremap ä ]
-noremap Ö {
-noremap Ä }
 " }}}
 
-" Filetype Settings ---- {{{
-autocmd FileType gitcommit setlocal spell textwidth=72
-autocmd FileType html,css setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType tex setlocal shiftwidth=2 tabstop=2 softtabstop=2
-autocmd FileType python setlocal shiftwidth=4 tabstop=4 softtabstop=4
-
+" Filetype settings {{{
 augroup FileTypeVim
   autocmd!
   autocmd FileType vim setlocal foldmethod=marker
   autocmd FileType vim setlocal shiftwidth=2 tabstop=2 softtabstop=2
-  autocmd FileType vim setlocal foldlevel=0
 augroup END
 
 augroup FileTypeCpp
   autocmd!
-  autocmd FileType cpp setlocal foldmethod=syntax
-  autocmd FileType cpp setlocal shiftwidth=4 tabstop=4 softtabstop=4
+  autocmd FileType c,cpp setlocal foldmethod=syntax
+  autocmd FileType c,cpp setlocal commentstring=//\ %s
 augroup END
 
-augroup FileTypeRust
+augroup FileTypeTex
   autocmd!
-  autocmd FileType rust setlocal shiftwidth=4 tabstop=4 softtabstop=4
+  autocmd FileType tex,plaintex setlocal foldmethod=marker
+  autocmd FileType tex,plaintex setlocal shiftwidth=2 tabstop=2 softtabstop=2
 augroup END
 
+augroup FileTypeBib
+  autocmd!
+  autocmd FileType bib setlocal shiftwidth=2 tabstop=2 softtabstop=2
+augroup END
+
+augroup FileTypeRst
+  autocmd!
+  autocmd FileType rst setlocal shiftwidth=2 tabstop=2 softtabstop=2
+augroup END
+
+let g:tex_flavor = "latex"
 " }}}
+
+" YouCompleteMe {{{
+if s:PlugExists('youcompleteme')
+  let g:ycm_global_ycm_extra_conf = s:vimroot . '/.ycm_extra_conf.py'
+  let g:ycm_confirm_extra_conf = 0
+  let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1 }
+endif
+" }}}
+
+" Tab Completion {{{
+if s:PlugExists('ultisnips')
+  let g:UltiSnipsExpandTrigger="<c-j>"
+  let g:UltiSnipsJumpForwardTrigger="<c-j>"
+  let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+endif
+" }}}
+
+" vim-airline {{{
+set laststatus=2 " Make sure airline is always visible
+let g:airline#extensions#tabline#enabled=1
+let g:airline_powerline_fonts=1
+" }}}
+
+" tmuxline.vim {{{
+if s:PlugExists('tmuxline.vim')
+  let g:tmuxline_preset = {
+    \'a'    : '#h',
+    \'b'    : '#S',
+    \'c'    : '',
+    \'win'  : '#I #W',
+    \'cwin' : '#I #W',
+    \'x'    : '',
+    \'y'    : '%a %b %d',
+    \'z'    : '%R'}
+endif
+" }}}
+
+" CtrlP {{{
+if s:PlugExists('ctrlp.vim')
+  let g:ctrlp_map = '<c-p>'
+  let g:ctrlp_cmd = 'CtrlPMixed'
+  let g:ctrlp_working_path_mode = 'ra'
+  let g:ctrlp_custom_ignore = {
+    \ 'dir': '\v[\/]\.(git|hg|svn|bzr)$',
+    \ 'file': '\v\.(exe|so|dll|o|acn|acr|alg|aux|bbl|blg|brf|glg|glo|gls|idx|log|nlg|nlo|nls|out|toc|xdy)$',
+    \ }
+endif
+" }}}
+
+" ack.vim {{{
+let g:ackprg = 'ag --nogroup --nocolor --column'
+" }}}
+
+" vim-pencil {{{
+if s:PlugExists('vim-pencil')
+  let g:pencil#textwidth = 74
+  let g:pencil#wrapModeDefault = 'soft'
+  let g:airline_section_x = '%{PencilMode()}'
+  let g:pencil#conceallevel = 3
+  let g:pencil#concealcursor = 'c'
+
+  nnoremap <leader>ps :SoftPencil<CR>
+  nnoremap <leader>ph :HardPencil<CR>
+  nnoremap <leader>pn :NoPencil<CR>
+  nnoremap <leader>pt :PFormatToggle<CR>
+
+  augroup Pencil
+    autocmd!
+    autocmd Filetype rst call pencil#init({'wrap': 'hard', 'autoformat': 0})
+    autocmd Filetype tex call pencil#init({'wrap': 'hard', 'autoformat': 1})
+  augroup END
+endif
+" }}}
+
+" Tabular {{{
+nnoremap <leader>= :Tabularize /=<CR>
+vnoremap <leader>= :Tabularize /=<CR>
+nnoremap <leader>& :Tabularize /&<CR>
+vnoremap <leader>& :Tabularize /&<CR>
+nnoremap <leader>: :Tabularize /:\zs<CR>
+vnoremap <leader>: :Tabularize /:\zs<CR>
+" }}}
+

@@ -1,46 +1,16 @@
-" vim-plug setup {{{
-if has("nvim")
-  call plug#begin('~/.nvim/plugged')
+if has('nvim')
+  let s:vimroot = expand('~/.nvim')
 else
-  call plug#begin('~/.vim/plugged')
+  let s:vimroot = expand('~/.vim')
 endif
 
-" Themes
-Plug 'chriskempson/base16-vim'
-Plug 'bling/vim-airline'
-" Plug 'edkolev/tmuxline.vim'
+let s:plugroot = s:vimroot . '/bundle'
+function! s:PlugExists(name)
+  return !empty(glob(s:plugroot . '/' . a:name))
+endfunction
 
-" Navigation
-Plug 'christoomey/vim-tmux-navigator'
-" Plug 'ctrlpvim/ctrlp.vim'
-Plug 'mileszs/ack.vim'
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
-Plug 'junegunn/fzf.vim'
-Plug 'tpope/vim-fugitive'
-
-" Behaviour
-Plug 'kopischke/vim-stay'
-Plug 'konfekt/fastfold'
-
-" Auto-completion
-Plug 'valloric/youcompleteme', {'do': 'python2 install.py --clang-completer'}
-Plug 'SirVer/ultisnips'
-" Plug 'ervandew/supertab'
-
-" Syntax highlighting
-Plug 'beyondmarc/glsl.vim'
-Plug 'octol/vim-cpp-enhanced-highlight'
-Plug 'rust-lang/rust.vim'
-Plug 'zaiste/tmux.vim'
-
-" Writing
-Plug 'reedes/vim-pencil'
-Plug 'godlygeek/tabular'
-Plug 'tpope/vim-commentary'
-
-call plug#end()
-" }}}
-
+execute pathogen#infect()
+syntax on
 filetype plugin indent on
 
 " Appearance {{{
@@ -153,7 +123,7 @@ nnoremap <silent> <leader>f :Files<cr>
 nnoremap <silent> <leader>t :Tags<cr>
 
 " Neovim terminal
-if has("nvim")
+if has('nvim')
   tnoremap <Esc> <C-\><C-n>
   tnoremap <C-h> <C-\><C-n><C-w>h
   tnoremap <C-j> <C-\><C-n><C-w>j
@@ -200,21 +170,19 @@ let g:tex_flavor = "latex"
 " }}}
 
 " YouCompleteMe {{{
-let g:ycm_global_ycm_extra_conf = "~/.nvim/.ycm_extra_conf.py"
-let g:ycm_confirm_extra_conf = 0
-let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1 }
+if s:PlugExists('youcompleteme')
+  let g:ycm_global_ycm_extra_conf = s:vimroot . '/.ycm_extra_conf.py'
+  let g:ycm_confirm_extra_conf = 0
+  let g:ycm_filetype_whitelist = { 'cpp': 1, 'python': 1 }
+endif
 " }}}
 
 " Tab Completion {{{
-" Make YCM compatible with UltiSnips
-" let g:ycm_key_list_select_completion = ['<C-n>', '<Down>']
-" let g:ycm_key_list_previous_completion = ['<C-p>', '<Up>']
-" let g:SuperTabDefaultCompletionType = '<C-n>'
-
-" UltiSnips bindings
-let g:UltiSnipsExpandTrigger="<c-j>"
-let g:UltiSnipsJumpForwardTrigger="<c-j>"
-let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+if s:PlugExists('ultisnips')
+  let g:UltiSnipsExpandTrigger="<c-j>"
+  let g:UltiSnipsJumpForwardTrigger="<c-j>"
+  let g:UltiSnipsJumpBackwardTrigger="<c-k>"
+endif
 " }}}
 
 " vim-airline {{{
@@ -224,27 +192,29 @@ let g:airline_powerline_fonts=1
 " }}}
 
 " tmuxline.vim {{{
-" let g:tmuxline_preset = {
-"   \'a'    : '#h',
-"   \'b'    : '#S',
-"   \'c'    : '',
-"   \'win'  : '#I #W',
-"   \'cwin' : '#I #W',
-"   \'x'    : '',
-"   \'y'    : '%a %b %d',
-"   \'z'    : '%R'}
+if s:PlugExists('tmuxline.vim')
+  let g:tmuxline_preset = {
+    \'a'    : '#h',
+    \'b'    : '#S',
+    \'c'    : '',
+    \'win'  : '#I #W',
+    \'cwin' : '#I #W',
+    \'x'    : '',
+    \'y'    : '%a %b %d',
+    \'z'    : '%R'}
+endif
 " }}}
 
 " CtrlP {{{
-" let g:ctrlp_map = '<c-p>'
-" let g:ctrlp_cmd = 'CtrlPMixed'
-" let g:ctrlp_working_path_mode = 'ra'
-" let g:ctrlp_custom_ignore = {
-"   \ 'dir': '\v[\/]\.(git|hg|svn|bzr)$',
-"   \ 'file': '\v\.(exe|so|dll|o|acn|acr|alg|aux|bbl|blg|brf|glg|glo|gls|idx|log|nlg|nlo|nls|out|toc|xdy)$',
-"   \ }
-
-" noremap <Tab> :CtrlPTag<cr>
+if s:PlugExists('ctrlp.vim')
+  let g:ctrlp_map = '<c-p>'
+  let g:ctrlp_cmd = 'CtrlPMixed'
+  let g:ctrlp_working_path_mode = 'ra'
+  let g:ctrlp_custom_ignore = {
+    \ 'dir': '\v[\/]\.(git|hg|svn|bzr)$',
+    \ 'file': '\v\.(exe|so|dll|o|acn|acr|alg|aux|bbl|blg|brf|glg|glo|gls|idx|log|nlg|nlo|nls|out|toc|xdy)$',
+    \ }
+endif
 " }}}
 
 " ack.vim {{{
@@ -252,22 +222,24 @@ let g:ackprg = 'ag --nogroup --nocolor --column'
 " }}}
 
 " vim-pencil {{{
-let g:pencil#textwidth = 74
-let g:pencil#wrapModeDefault = 'soft'
-let g:airline_section_x = '%{PencilMode()}'
-let g:pencil#conceallevel = 3
-let g:pencil#concealcursor = 'c'
+if s:PlugExists('vim-pencil')
+  let g:pencil#textwidth = 74
+  let g:pencil#wrapModeDefault = 'soft'
+  let g:airline_section_x = '%{PencilMode()}'
+  let g:pencil#conceallevel = 3
+  let g:pencil#concealcursor = 'c'
 
-nnoremap <leader>ps :SoftPencil<CR>
-nnoremap <leader>ph :HardPencil<CR>
-nnoremap <leader>pn :NoPencil<CR>
-nnoremap <leader>pt :PFormatToggle<CR>
+  nnoremap <leader>ps :SoftPencil<CR>
+  nnoremap <leader>ph :HardPencil<CR>
+  nnoremap <leader>pn :NoPencil<CR>
+  nnoremap <leader>pt :PFormatToggle<CR>
 
-augroup Pencil
-  autocmd!
-  autocmd Filetype rst call pencil#init({'wrap': 'hard', 'autoformat': 0})
-  autocmd Filetype tex call pencil#init({'wrap': 'hard', 'autoformat': 1})
-augroup END
+  augroup Pencil
+    autocmd!
+    autocmd Filetype rst call pencil#init({'wrap': 'hard', 'autoformat': 0})
+    autocmd Filetype tex call pencil#init({'wrap': 'hard', 'autoformat': 1})
+  augroup END
+endif
 " }}}
 
 " Tabular {{{

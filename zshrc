@@ -38,7 +38,7 @@ zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'
 
 # Base16 Shell
 if [ -n "$PS1" ]; then
-    eval "$(~/dev/co/base16-shell/profile_helper.sh)"
+    eval "$(~/src/co/base16-shell/profile_helper.sh)"
 fi
 
 # Functions {{{
@@ -101,7 +101,6 @@ path+=~/Tools/MinGW64/bin
 path+=/usr/local/sbin
 
 # FZF {{{
-[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 
 fe() {
   local file
@@ -115,3 +114,5 @@ fo() {
   [ -n "$file" ] && open "$file"
 }
 # }}}
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

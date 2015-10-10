@@ -1,7 +1,10 @@
 [core]
+    excludesfile = ~/.gitignore
     autocrlf = input
 [color]
     ui = true
+[mergetool]
+    keepBackup = false
 [push]
     default = simple
 [alias]

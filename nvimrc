@@ -8,7 +8,7 @@ endif
 " Themes
 Plug 'chriskempson/base16-vim'
 Plug 'bling/vim-airline'
-Plug 'edkolev/tmuxline.vim'
+" Plug 'edkolev/tmuxline.vim'
 
 " Navigation
 Plug 'christoomey/vim-tmux-navigator'
@@ -224,15 +224,15 @@ let g:airline_powerline_fonts=1
 " }}}
 
 " tmuxline.vim {{{
-let g:tmuxline_preset = {
-  \'a'    : '#h',
-  \'b'    : '#S',
-  \'c'    : '',
-  \'win'  : '#I #W',
-  \'cwin' : '#I #W',
-  \'x'    : '',
-  \'y'    : '%a %b %d',
-  \'z'    : '%R'}
+" let g:tmuxline_preset = {
+"   \'a'    : '#h',
+"   \'b'    : '#S',
+"   \'c'    : '',
+"   \'win'  : '#I #W',
+"   \'cwin' : '#I #W',
+"   \'x'    : '',
+"   \'y'    : '%a %b %d',
+"   \'z'    : '%R'}
 " }}}
 
 " CtrlP {{{

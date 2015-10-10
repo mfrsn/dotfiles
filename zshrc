@@ -6,3 +6,5 @@ if [ -d ~/.zshrc.d ]; then
 fi
 
 bindkey -e
+
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh

@@ -30,7 +30,7 @@ install_files() {
 
         if [ ! -d "$dir" ]; then
             echo "Directory $dir doesn't exist. Creating."
-            # mkdir -p "$dir"
+            mkdir -p "$dir"
         fi
 
         if [ -e "$dst" ]; then
@@ -45,11 +45,11 @@ install_files() {
         case $1 in
             "symlink")
                 echo "Linking $name"
-                # ln -sf "$src" "$dst"
+                ln -sf "$src" "$dst"
                 ;;
             "copy")
                 echo "Copying $name"
-                # cp -f "$src" "$dst"
+                cp -f "$src" "$dst"
                 ;;
             *)
                 ;;
@@ -57,13 +57,22 @@ install_files() {
     done
 }
 
-install_vim_plugins() {
-    $(command -v nvim) >/dev/null 2>&1 || { echo >&2 "Neovim is not installed. Aborting."; exit 1; }
+setup_vim() {
+    vimhome="$HOME/${1:-.vim}"
+    pathogen="$vimhome/autoload/pathogen.vim"
+
+    mkdir -p "$vimhome/autoload"
+    mkdir -p "$vimhome/bundle"
+    [ -e "$pathogen" ] || { echo "Downloading pathogen"; curl -LSso "$pathogen" "https://tpo.pe/pathogen.vim"; }
+}
+
+setup_gitconfig() {
+    read -r -p "What is your name?" name
+    read -r -p "What is your email?" email
+    git config --global user.name "$name"
+    git config --global user.email "$email"
 }
 
 query "Symlink files in 'symlink'?" && install_files "symlink"
 query "Copy files in 'copy'?" && install_files "copy"
-# install_symlinks
-# install_samples
-# install_vim_plugins
-
+query "Setup pathogen?" && setup_vim

@@ -63,16 +63,57 @@ setup_vim() {
 
     mkdir -p "$vimhome/autoload"
     mkdir -p "$vimhome/bundle"
-    [ -e "$pathogen" ] || { echo "Downloading pathogen"; curl -LSso "$pathogen" "https://tpo.pe/pathogen.vim"; }
+    if [ -e "$pathogen" ]; then
+        query "Pathogen is already installed. Overwrite?" || return
+    fi
+    curl -LSso "$pathogen" "https://tpo.pe/pathogen.vim"
 }
 
 setup_gitconfig() {
-    read -r -p "What is your name?" name
-    read -r -p "What is your email?" email
+    read -r -p "What is your name? " name
+    read -r -p "What is your email? " email
     git config --global user.name "$name"
     git config --global user.email "$email"
 }
 
-query "Symlink files in 'symlink'?" && install_files "symlink"
-query "Copy files in 'copy'?" && install_files "copy"
-query "Setup pathogen?" && setup_vim
+symlink=false
+copy=false
+git=false
+vim=false
+plugins=false
+x11=false
+
+while [[ $# > 0 ]]; do
+    key="$1"
+    case $key in
+        -s|--symlink)
+            symlink=true
+            ;;
+        -c|--copy)
+            copy=true
+            ;;
+        -g|--git)
+            git=true
+            ;;
+        -v|--vim)
+            vim=true
+            ;;
+        --plugins)
+            vim=true
+            plugins=true
+            ;;
+        -x|--x11)
+            x11=true
+            ;;
+        *)
+            ;;
+    esac
+    shift
+done
+
+[ "$symlink" = true ] && install_files "symlink"
+[ "$copy" = true ] && install_files "copy"
+[ "$git" = true ] && setup_gitconfig
+[ "$vim" = true ] && setup_vim
+[ "$plugins" = true ] && install_plugins
+

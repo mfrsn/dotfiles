@@ -120,6 +120,7 @@ while [[ $# > 0 ]]; do
 done
 
 [ "$symlink" = true ] && symlink_files "symlink"
+[ "$x11" = true ] && symlink_files "x11"
 [ "$copy" = true ] && copy_files "copy"
 [ "$git" = true ] && setup_gitconfig
 [ "$vim" = true ] && setup_vim

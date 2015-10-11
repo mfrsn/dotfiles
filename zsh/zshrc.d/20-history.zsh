@@ -1,0 +1,8 @@
+setopt APPEND_HISTORY
+setopt SHARE_HISTORY
+setopt HIST_VERIFY
+setopt HIST_IGNORE_ALL_DUPS
+export HISTFILE="${HOME}"/.zsh_history
+export HISTSIZE=1000
+export SAVEHIST=$HISTSIZE
+

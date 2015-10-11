@@ -61,9 +61,6 @@ install_vim_plugins() {
     $(command -v nvim) >/dev/null 2>&1 || { echo >&2 "Neovim is not installed. Aborting."; exit 1; }
 }
 
-query "This script will symlink or copy all files in the respective directories. Do you want to continue?" \
-    || { echo "Exiting. No files have been changed."; exit 1; }
-
 query "Symlink files in 'symlink'?" && install_files "symlink"
 query "Copy files in 'copy'?" && install_files "copy"
 # install_symlinks

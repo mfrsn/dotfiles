@@ -1,0 +1,62 @@
+#include ".colors/base16-eighties.dark.256.xresources"
+
+! Xcursor {{{
+Xcursor.theme:    Vanilla-DMZ-AA
+Xcursor.size:     22
+! }}}
+
+! Font settings {{{
+Xft.autohint:     0
+Xft.lcdfilter:    lcddefault
+Xft.hintstyle:    hintfull
+Xft.hinting:      1
+Xft.antialias:    1
+Xft.rgba:         rgb
+Xft.dpi:          117
+
+!URxvt*font:           xft:Source Code Pro:pixelsize=14
+!URxvt*boldFont:       xft:Source Code Pro:pixelsize=14
+!URxvt*italicFont:     xft:Source Code Pro:pixelsize=14
+!URxvt*bolditalicFont: xft:Source Code Pro:pixelsize=14
+
+URxvt*font:           xft:Source Code Pro Medium:pixelsize=14
+URxvt*boldFont:       xft:Source Code Pro Medium:pixelsize=14
+URxvt*italicFont:     xft:Source Code Pro Medium:pixelsize=14
+URxvt*bolditalicFont: xft:Source Code Pro Medium:pixelsize=14
+
+!URxvt*font:           -*-tamsyn-medium-r-normal-*-13-*-*-*-*-*-*-*
+!URxvt*boldFont:       -*-tamsyn-medium-r-normal-*-13-*-*-*-*-*-*-*
+!URxvt*italicFont:     -*-tamsyn-medium-r-normal-*-13-*-*-*-*-*-*-*
+!URxvt*bolditalicFont: -*-tamsyn-medium-r-normal-*-13-*-*-*-*-*-*-*
+! }}}
+
+! rxvt {{{
+URxvt.perl-ext-common:      default,clipboard,url-select,keyboard-select
+URxvt.url-select.launcher:  firefox
+URxvt.url-select.underline: true
+URxvt.keysym.M-u:           perl:url-select:select_next
+URxvt.keysym.M-s:           perl:keyboard-select:search
+URxvt.keysym.M-Escape:      perl:keyboard-select:activate
+URxvt.keysym.M-c:           perl:clipboard:copy
+URxvt.keysym.M-v:           perl:clipboard:paste
+URxvt.clipboard.copycmd:    xsel -ib
+URxvt.clipboard.pastecmd:   xsel -ob
+
+URxvt.scrollBar:        false
+URxvt*cursorUnderline:  0
+URxvt*cursorBlink:      true
+URxvt*depth:            32
+URxvt*dynamicColors:    on
+URxvt.iso14755:         False
+! }}}
+
+! xterm {{{
+xterm*termName:         xterm-256color
+xterm*locale:           true
+xterm*scrollBar:        false
+xterm*saveLinex:        4096
+xterm*metaSendsEscape:  true
+xterm*charClass:        33:48,35:48,37:48,43:48,45-47:48,64:48,95:48,126:48,35:48,58:48,63:48,61:48,44:48,38:48,59:48
+xterm*allowBoldFonts:   false
+xterm*faceName:         Source Code Pro Medium:pixelsize=14
+! }}}

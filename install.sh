@@ -42,7 +42,7 @@ install_files() {
             query "File $dst exists. Overwrite?" || { echo "Ignoring $name"; continue; }
         fi
 
-        case $1 in
+        case $2 in
             "symlink")
                 echo "Linking $name"
                 ln -sf "$src" "$dst"
@@ -55,6 +55,14 @@ install_files() {
                 ;;
         esac
     done
+}
+
+symlink_files() {
+    install_files "$1" "symlink"
+}
+
+copy_files() {
+    install_files "$1" "copy"
 }
 
 setup_vim() {
@@ -111,8 +119,8 @@ while [[ $# > 0 ]]; do
     shift
 done
 
-[ "$symlink" = true ] && install_files "symlink"
-[ "$copy" = true ] && install_files "copy"
+[ "$symlink" = true ] && symlink_files "symlink"
+[ "$copy" = true ] && copy_files "copy"
 [ "$git" = true ] && setup_gitconfig
 [ "$vim" = true ] && setup_vim
 [ "$plugins" = true ] && install_plugins

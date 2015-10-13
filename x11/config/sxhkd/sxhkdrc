@@ -14,7 +14,7 @@ super + t
 super + b
 	bspc desktop -B
 
-super + {s,f, p}
+super + {s,f,p}
 	bspc window -t {floating,fullscreen,pseudo_tiled}
 
 super + {grave,Tab}
@@ -46,6 +46,7 @@ super + {comma,period}
 super + bracket{left,right}
 	bspc desktop -f {prev,next}
 
+# Pre-select
 super + ctrl + {h,j,k,l}
 	bspc window -p {left,down,up,right}
 

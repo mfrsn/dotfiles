@@ -6,6 +6,10 @@ popd > /dev/null
 
 OS=$(uname | awk '{print tolower($0)}')
 
+has() {
+    command -v "$1" >/dev/null 2&>1
+}
+
 query() {
     read -r -p "${1:-Continue?} [y/N] " response
     response=${response,,}
@@ -125,4 +129,3 @@ done
 [ "$git" = true ] && setup_gitconfig
 [ "$vim" = true ] && setup_vim
 [ "$plugins" = true ] && install_plugins
-

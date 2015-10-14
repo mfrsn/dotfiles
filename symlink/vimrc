@@ -98,7 +98,7 @@ nnoremap <F5> :setlocal spell! spelllang=en_gb<CR>
 nnoremap <leader>ev :vsplit $MYVIMRC<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 
-nnoremap <bs> :set hlsearch! hlsearch?<cr>
+nnoremap <leader><bs> :set hlsearch! hlsearch?<cr>
 
 onoremap in( :<c-u>normal! f(vi(<cr>
 onoremap il( :<c-u>normal! F)vi(<cr>

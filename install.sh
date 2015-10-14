@@ -6,72 +6,77 @@ popd > /dev/null
 
 OS=$(uname | awk '{print tolower($0)}')
 
+verbose=0
+while [[ $# > 0 ]]; do
+    key="$1"
+    case $key in
+        -v|--verbose)
+            verbose=1
+            ;;
+        *)
+            ;;
+    esac
+    shift
+done
+
+log() {
+    [[ $verbose -eq 1 ]] && echo "$1"
+}
+
 has() {
     command -v "$1" >/dev/null 2&>1
 }
 
 query() {
-    read -r -p "${1:-Continue?} [y/N] " response
+    read -r -n1 -p "${1:-Continue?} [y/N] " response
+    echo
     response=${response,,}
-    [[ $response =~ ^([yY][eE][sS]|[yY])$ ]]
+    [[ "$response" == "y" ]]
 }
 
-is_os_specific() {
-    [[ "$1" =~ (linux|darwin) ]]
+wrong_os() {
+    [[ "$1" =~ (linux|darwin) ]] && ! [[ "$1" =~ "$OS" ]]
 }
 
-matches_os() {
-    [[ "$1" =~ "$OS" ]]
-}
-
-install_files() {
+install() {
+    prefix=${2:-""}
     for src in $(find -H "$DOTDIR/$1" -type f); do
-        dst=$(echo "$src" | sed 's|'$DOTDIR/$1/'|'$HOME/.'|')
+        dst=$(echo "$src" | sed 's|'$DOTDIR/$1/'|'$HOME/.$prefix'|')
         dir=$(dirname "$dst")
         name=$(basename "$dst")
+        copy=0
 
-        (is_os_specific "$name" && ! matches_os "$name") && { echo "Ignoring $name"; continue; }
+        wrong_os "$name" && { log "Ignoring $name."; continue; }
 
         if [ ! -d "$dir" ]; then
-            echo "Directory $dir doesn't exist. Creating."
+            log "Creating $dir."
             mkdir -p "$dir"
         fi
 
-        if [ -e "$dst" ]; then
-            if [ $(readlink -f "$dst") == "$src" ]; then
-                echo "$name is already installed. Ignoring."
-                continue
-            fi
+        # Remove "copy" from filename if present.
+        [[ "$name" =~ ".copy" ]] && { copy=1; dst=${dst%.copy}; }
 
-            query "File $dst exists. Overwrite?" || { echo "Ignoring $name"; continue; }
+        # Delete symlinks.
+        [ -L "$dst" ] && { log "Removing $dst"; rm $dst; }
+
+        # Backup regular files.
+        [ -f "$dst" ] && { log "Backing up $dst"; mv $dst $dst.old; }
+
+        if [[ $copy -eq 1 ]]; then
+            log "Copying $name to $dst"
+            cp $src $dst
+        else
+            log "Symlinking $name to $dst"
+            ln -s $src $dst
         fi
-
-        case $2 in
-            "symlink")
-                echo "Linking $name"
-                ln -sf "$src" "$dst"
-                ;;
-            "copy")
-                echo "Copying $name"
-                cp -f "$src" "$dst"
-                ;;
-            *)
-                ;;
-        esac
     done
-}
-
-symlink_files() {
-    install_files "$1" "symlink"
-}
-
-copy_files() {
-    install_files "$1" "copy"
 }
 
 setup_vim() {
     vimhome="$HOME/${1:-.vim}"
     pathogen="$vimhome/autoload/pathogen.vim"
+
+    log "Installing pathogin to $pathogen"
 
     mkdir -p "$vimhome/autoload"
     mkdir -p "$vimhome/bundle"
@@ -88,44 +93,6 @@ setup_gitconfig() {
     git config --global user.email "$email"
 }
 
-symlink=false
-copy=false
-git=false
-vim=false
-plugins=false
-x11=false
+query "Install common config files?" && install "common"
+(has xrdb && query "Install x11 related files?") && install "x11"
 
-while [[ $# > 0 ]]; do
-    key="$1"
-    case $key in
-        -s|--symlink)
-            symlink=true
-            ;;
-        -c|--copy)
-            copy=true
-            ;;
-        -g|--git)
-            git=true
-            ;;
-        -v|--vim)
-            vim=true
-            ;;
-        --plugins)
-            vim=true
-            plugins=true
-            ;;
-        -x|--x11)
-            x11=true
-            ;;
-        *)
-            ;;
-    esac
-    shift
-done
-
-[ "$symlink" = true ] && symlink_files "symlink"
-[ "$x11" = true ] && symlink_files "x11"
-[ "$copy" = true ] && copy_files "copy"
-[ "$git" = true ] && setup_gitconfig
-[ "$vim" = true ] && setup_vim
-[ "$plugins" = true ] && install_plugins

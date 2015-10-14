@@ -119,8 +119,8 @@ nnoremap <leader>T :enew<cr>
 nnoremap <leader>W :bp <bar> bd #<cr>
 
 " fzf keybindings
-nnoremap <silent> <leader>f :Files<cr>
-nnoremap <silent> <leader>t :Tags<cr>
+" nnoremap <silent> <leader>f :Files<cr>
+" nnoremap <silent> <leader>t :Tags<cr>
 
 " Neovim terminal
 if has('nvim')
@@ -207,13 +207,17 @@ endif
 
 " CtrlP {{{
 if s:PlugExists('ctrlp.vim')
-  let g:ctrlp_map = '<c-p>'
+  let g:ctrlp_map = ''
   let g:ctrlp_cmd = 'CtrlPMixed'
   let g:ctrlp_working_path_mode = 'ra'
+  let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
   let g:ctrlp_custom_ignore = {
     \ 'dir': '\v[\/]\.(git|hg|svn|bzr)$',
     \ 'file': '\v\.(exe|so|dll|o|acn|acr|alg|aux|bbl|blg|brf|glg|glo|gls|idx|log|nlg|nlo|nls|out|toc|xdy)$',
     \ }
+
+  nnoremap <leader>f :CtrlPMixed<cr>
+  nnoremap <leader>t :CtrlPTag<cr>
 endif
 " }}}
 

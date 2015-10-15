@@ -24,7 +24,7 @@ log() {
 }
 
 has() {
-    command -v "$1" >/dev/null 2&>1
+    command -v "$1" >/dev/null 2>&1
 }
 
 query() {

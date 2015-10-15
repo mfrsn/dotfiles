@@ -7,11 +7,15 @@ popd > /dev/null
 OS=$(uname | awk '{print tolower($0)}')
 
 verbose=0
+copy_files=0
 while [[ $# > 0 ]]; do
     key="$1"
     case $key in
         -v|--verbose)
             verbose=1
+            ;;
+        -c|--copy)
+            copy_files=1
             ;;
         *)
             ;;
@@ -54,7 +58,11 @@ install() {
         fi
 
         # Remove "copy" from filename if present.
-        [[ "$name" =~ ".copy" ]] && { copy=1; dst=${dst%.copy}; }
+        if [[ "$name" =~ ".copy" ]]; then
+            [ $copy_files -ne 1 ] && continue
+            copy=1
+            dst=${dst%.copy}
+        fi
 
         # Delete symlinks.
         [ -L "$dst" ] && { log "Removing $dst"; rm $dst; }

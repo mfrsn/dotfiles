@@ -78,6 +78,8 @@ set foldlevelstart=99           " Don't autofold
 set foldnestmax=20              " Max no. nested folds
 set foldcolumn=0                " Don't show folds in the line number gutter
 
+set tags=./tags;                " Look for tags file in current file's dir, then in parent dirs
+
 " Options to save into views
 set viewoptions=cursor,folds,options,slash,unix
 

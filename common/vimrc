@@ -9,6 +9,15 @@ function! s:PlugExists(name)
   return !empty(glob(s:plugroot . '/' . a:name))
 endfunction
 
+function! s:StripWhitespace()
+  let s = @/
+  let l = line('.')
+  let c = col('.')
+  %s:\s\+$::e
+  let @/ = s
+  call cursor(l, c)
+endfunction
+
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
@@ -148,7 +157,7 @@ augroup END
 augroup FileTypeCpp
   autocmd!
   autocmd FileType c,cpp setlocal foldmethod=syntax
-  autocmd FileType c,cpp setlocal commentstring=//\ %s
+  autocmd FileType cpp setlocal commentstring=//\ %s
 augroup END
 
 augroup FileTypeTex
@@ -165,6 +174,11 @@ augroup END
 augroup FileTypeRst
   autocmd!
   autocmd FileType rst setlocal shiftwidth=2 tabstop=2 softtabstop=2
+augroup END
+
+augroup General
+  autocmd!
+  autocmd FileType vim,c,cpp,python autocmd BufWritePre <buffer> :call <SID>StripWhitespace()
 augroup END
 
 let g:tex_flavor = "latex"
@@ -255,4 +269,3 @@ vnoremap <leader>& :Tabularize /&<CR>
 nnoremap <leader>: :Tabularize /:\zs<CR>
 vnoremap <leader>: :Tabularize /:\zs<CR>
 " }}}
-

@@ -9,6 +9,15 @@ function! s:PlugExists(name)
   return !empty(glob(s:plugroot . '/' . a:name))
 endfunction
 
+function! s:StripWhitespace()
+  let s = @/
+  let l = line('.')
+  let c = col('.')
+  %s:\s\+$::e
+  let @/ = s
+  call cursor(l, c)
+endfunction
+
 execute pathogen#infect()
 syntax on
 filetype plugin indent on
@@ -60,13 +69,16 @@ set softtabstop=4               " Make sure vim uses the appropriate number of s
 
 set cindent                     " Enable C autoindent
 set cinoptions+=g0              " C++ scope declarations in first column
-set cinoptions+=(0,W4           " Align line breaks within parenthesis
+set cinoptions+=(0,Ws           " Align line breaks within parenthesis
+set cinoptions+=:0,l1           " Don't indent case lables
 
 set foldmethod=indent           " Fold based on indentation
 set foldlevel=99                " Don't autofold
 set foldlevelstart=99           " Don't autofold
 set foldnestmax=20              " Max no. nested folds
 set foldcolumn=0                " Don't show folds in the line number gutter
+
+set tags=./tags;                " Look for tags file in current file's dir, then in parent dirs
 
 " Options to save into views
 set viewoptions=cursor,folds,options,slash,unix
@@ -147,7 +159,7 @@ augroup END
 augroup FileTypeCpp
   autocmd!
   autocmd FileType c,cpp setlocal foldmethod=syntax
-  autocmd FileType c,cpp setlocal commentstring=//\ %s
+  autocmd FileType cpp setlocal commentstring=//\ %s
 augroup END
 
 augroup FileTypeTex
@@ -164,6 +176,11 @@ augroup END
 augroup FileTypeRst
   autocmd!
   autocmd FileType rst setlocal shiftwidth=2 tabstop=2 softtabstop=2
+augroup END
+
+augroup General
+  autocmd!
+  autocmd FileType vim,c,cpp,python autocmd BufWritePre <buffer> :call <SID>StripWhitespace()
 augroup END
 
 let g:tex_flavor = "latex"
@@ -254,4 +271,3 @@ vnoremap <leader>& :Tabularize /&<CR>
 nnoremap <leader>: :Tabularize /:\zs<CR>
 vnoremap <leader>: :Tabularize /:\zs<CR>
 " }}}
-
